@@ -1,4 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Skills Horizontal Scroll ---
+    const skillsSection = document.querySelector('#skills');
+    const skillsViewport = skillsSection?.querySelector('.skills-viewport');
+    const skillsTrack = skillsSection?.querySelector('.skills-container');
+    const skillsHeading = skillsSection?.querySelector('.section-title');
+
+    if (skillsSection && skillsViewport && skillsTrack && skillsHeading && window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const skillsMedia = gsap.matchMedia();
+        skillsMedia.add('(min-width: 769px) and (prefers-reduced-motion: no-preference)', () => {
+            skillsSection.classList.add('skills-horizontal');
+
+            const getTravelDistance = () => Math.max(0, skillsTrack.scrollWidth - skillsViewport.clientWidth);
+
+            gsap.fromTo(skillsHeading, { autoAlpha: 0, y: 16 }, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.7,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: skillsSection,
+                    start: 'top 75%',
+                    once: true
+                }
+            });
+
+            gsap.to(skillsTrack, {
+                x: () => -getTravelDistance(),
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: skillsSection,
+                    start: 'top top',
+                    end: () => `+=${getTravelDistance()}`,
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                    anticipatePin: 1
+                }
+            });
+
+            const refreshSkills = () => ScrollTrigger.refresh();
+            if (document.readyState === 'complete') {
+                refreshSkills();
+            } else {
+                window.addEventListener('load', refreshSkills, { once: true });
+            }
+
+            return () => {
+                window.removeEventListener('load', refreshSkills);
+                skillsSection.classList.remove('skills-horizontal');
+            };
+        });
+    }
+
     // --- Scroll Animations ---
     const fadeElements = document.querySelectorAll('.fade-in');
 

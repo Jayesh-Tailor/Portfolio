@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Skills horizontal scroll animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
     <!-- Scroll Animations -->
     <script src="script.js" defer></script>
 </head>
@@ -74,39 +77,58 @@
 
         <section id="skills" class="skills section">
             <h2 class="section-title">My Skills</h2>
-            <div class="skills-container classic-panel fade-in">
-                <div class="skill-category">
-                    <h3>Frontend</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag"><i class="fab fa-html5"></i> HTML5</span>
-                        <span class="skill-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
-                        <!-- <span class="skill-tag"><i class="fab fa-js"></i> JavaScript</span> -->
-                        <!-- <span class="skill-tag"><i class="fab fa-react"></i> React</span> -->
+            <div class="skills-viewport">
+                <div class="skills-container" aria-label="Skill groups">
+                    <div class="skill-category classic-panel">
+                        <h3>Frontend</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag"><i class="fab fa-html5"></i> HTML5</span>
+                            <span class="skill-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                            <!-- <span class="skill-tag"><i class="fab fa-js"></i> JavaScript</span> -->
+                            <!-- <span class="skill-tag"><i class="fab fa-react"></i> React</span> -->
+                        </div>
                     </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Programming Languages</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag"><svg role="img" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="40" height="40" rx="9"/><text x="50%" y="55%" fill="currentColor" font-size="18" font-family="Arial" font-weight="400" text-anchor="middle" dominant-baseline="middle">C++</text></svg> C++</span>
-                        <span class="skill-tag"><i class="fab fa-python"></i> Python</span>
-                        <span class="skill-tag"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"><path d="M24 24H0V0h24L12 12Z"/></svg> Kotlin</span>
+                    <div class="skill-category classic-panel">
+                        <h3>Programming Languages</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag"><svg role="img" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="40" height="40" rx="9"/><text x="50%" y="55%" fill="currentColor" font-size="18" font-family="Arial" font-weight="400" text-anchor="middle" dominant-baseline="middle">C++</text></svg> C++</span>
+                            <span class="skill-tag"><i class="fab fa-python"></i> Python</span>
+                            <span class="skill-tag"><i class="fab fa-java"></i> Java</span>
+                            <span class="skill-tag"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"><path d="M24 24H0V0h24L12 12Z"/></svg> Kotlin</span>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Tools & Others</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag"><i class="fab fa-git-alt"></i> Git</span>
-                        <span class="skill-tag"><i class="fab fa-github"></i> GitHub</span>
-                        <span class="skill-tag"><i class="fab fa-linux"></i> Kali Linux</span>
-                        <!-- <span class="skill-tag"><i class="fab fa-figma"></i> Figma</span> -->
+                    <div class="skill-category classic-panel">
+                        <h3>Tools & Others</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag"><i class="fab fa-git-alt"></i> Git</span>
+                            <span class="skill-tag"><i class="fab fa-github"></i> GitHub</span>
+                            <span class="skill-tag"><i class="fab fa-linux"></i> Kali Linux</span>
+                            <!-- <span class="skill-tag"><i class="fab fa-figma"></i> Figma</span> -->
+                        </div>
                     </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Database</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag"><i class="fa-solid fa-database"></i> MySQL</span>
-                        <!-- <span class="skill-tag"><i class="fab fa-github"></i> MongoDB</span> -->
-                        <!-- <span class="skill-tag"><i class="fab fa-figma"></i> Figma</span> -->
+                    <div class="skill-category classic-panel">
+                        <h3>Database</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag"><i class="fa-solid fa-database"></i> MySQL</span>
+                            <!-- <span class="skill-tag"><i class="fab fa-github"></i> MongoDB</span> -->
+                            <!-- <span class="fab fa-figma"></i> Figma</span> -->
+                        </div>
+                    </div>
+                    <div class="skill-category classic-panel">
+                        <h3>AI Tools & IDE</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag"><i class="fa-solid fa-brain"></i> ChatGPT</span>
+                            <span class="skill-tag"><i class="fa-solid fa-comments"></i> Claude</span>
+                            <span class="skill-tag"><i class="fa-solid fa-arrow-pointer"></i> Cursor</span>
+                            <span class="skill-tag"><i class="fa-solid fa-rocket"></i> Antigravity</span>
+                            <span class="skill-tag"><i class="fa-solid fa-code"></i> Devin</span>
+                            <span class="skill-tag"><i class="fa-solid fa-bolt"></i> Zed</span>
+                            <span class="skill-tag"><i class="fa-solid fa-gem"></i> Gemini</span>
+                            <span class="skill-tag"><i class="fa-solid fa-comment-dots"></i> Grok</span>
+                            <span class="skill-tag"><i class="fa-solid fa-laptop-code"></i> Replit</span>
+                            <span class="skill-tag"><i class="fa-solid fa-book-open"></i> NotebookLM</span>
+                            <span class="skill-tag"><i class="fab fa-github"></i> GitHub Copilot</span>
+                        </div>
                     </div>
                 </div>
             </div>
