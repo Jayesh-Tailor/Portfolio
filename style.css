@@ -61,8 +61,14 @@ h1, h2, h3, .logo {
     transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
-.classic-panel:hover {
+.classic-panel:hover:not(.project-card) {
     transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+.project-card.classic-panel:hover {
+    translate: 0 -5px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
     border-color: rgba(212, 175, 55, 0.4);
 }
@@ -445,6 +451,10 @@ main {
 }
 
 /* Projects Section */
+#projects {
+    overflow-x: clip;
+}
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -452,10 +462,26 @@ main {
 }
 
 .project-card {
+    position: relative;
+    overflow: hidden;
     padding: 30px;
     display: flex;
     flex-direction: column;
     height: 100%;
+    transition: translate 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.project-card::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--project-accent);
+    border-radius: 0 0 7px 7px;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--project-accent), transparent 45%);
+    pointer-events: none;
 }
 
 .project-info h3 {
@@ -668,6 +694,16 @@ footer p {
 
     .skill-category {
         min-height: 0;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 

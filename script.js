@@ -1,4 +1,85 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+
+    if (gsap && ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+    }
+
+    // --- Projects Scroll Animation ---
+    const projectsSection = document.querySelector('#projects');
+    const projectCards = projectsSection?.querySelectorAll('.project-card');
+
+    if (projectsSection && projectCards?.length && gsap && ScrollTrigger) {
+        const projectsMedia = gsap.matchMedia();
+
+        const animateCards = (xDistance, sideY, centerY) => {
+            const grid = projectsSection.querySelector('.projects-grid');
+            const columnCount = grid
+                ? getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length
+                : 1;
+            const getProjectsTop = () => {
+                const documentTop = projectsSection.getBoundingClientRect().top + window.scrollY;
+                const pinnedDistance = ScrollTrigger.getAll()
+                    .filter(trigger => trigger.pin && trigger.start < documentTop)
+                    .reduce((distance, trigger) => distance + trigger.end - trigger.start, 0);
+
+                return documentTop + pinnedDistance;
+            };
+
+            const getStartX = (index) => {
+                const column = index % columnCount;
+                if (columnCount === 1) return 0;
+                if (columnCount === 2) return column === 0 ? -xDistance : xDistance;
+                const centerColumn = (columnCount - 1) / 2;
+                return column < centerColumn ? -xDistance : column > centerColumn ? xDistance : 0;
+            };
+            const getStartY = (index) => {
+                const column = index % columnCount;
+                const row = Math.floor(index / columnCount);
+                const centerColumn = columnCount >= 3 && column === Math.floor((columnCount - 1) / 2);
+                return centerColumn
+                    ? Math.max(0, centerY - row * 20)
+                    : sideY + row * 30;
+            };
+
+            gsap.set(projectCards, {
+                x: getStartX,
+                y: getStartY,
+                autoAlpha: 0.2,
+                scale: 0.92
+            });
+
+            gsap.to(projectCards, {
+                x: 0,
+                y: 0,
+                autoAlpha: 1,
+                scale: 1,
+                ease: 'none',
+                stagger: 0.045,
+                scrollTrigger: {
+                    trigger: projectsSection,
+                    start: () => getProjectsTop() - window.innerHeight * 0.85,
+                    end: () => getProjectsTop() - window.innerHeight * 0.25,
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+        };
+
+        projectsMedia.add('(min-width: 1025px) and (prefers-reduced-motion: no-preference)', () => {
+            animateCards(300, 150, 300);
+        });
+
+        projectsMedia.add('(min-width: 769px) and (max-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+            animateCards(180, 110, 200);
+        });
+
+        projectsMedia.add('(max-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+            animateCards(0, 170, 170);
+        });
+    }
+
     // --- Skills Horizontal Scroll ---
     const skillsSection = document.querySelector('#skills');
     const skillsViewport = skillsSection?.querySelector('.skills-viewport');
@@ -55,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Scroll Animations ---
-    const fadeElements = document.querySelectorAll('.fade-in');
+    const fadeElements = document.querySelectorAll('.fade-in:not(.project-card)');
 
     const observerOptions = {
         root: null,
